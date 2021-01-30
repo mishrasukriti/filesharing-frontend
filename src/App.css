@@ -44,6 +44,8 @@ body,
   flex-direction: column;
 }
 
+
+
 .upload-container {
   background: #ffffff;
   border-radius: 25px;
@@ -258,7 +260,8 @@ body,
   right: 50%;
   transform: translate(50%, 60px);
   padding: 10px 20px;
-  background: var(--light-blue);
+  /* background: var(--light-blue); */
+  background: #046e0c;
   color: #fff;
   border-radius: 5px;
   font-size: 18px;
@@ -269,6 +272,11 @@ body,
 
 .show.toast {
   transform: translate(50%, 0);
+}
+
+.shadow {
+  text-shadow: 2px 2px 4px #000000;
+  /* color: white; */
 }
 
 @media screen and (max-width: 900px) {
