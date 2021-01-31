@@ -66,7 +66,7 @@
 
     const toast = document.querySelector(".toast");
 
-    const baseURL = "https://filesharing-backend.herokuapp.com";
+    const baseURL = "https://file-sharing-app-server.herokuapp.com";
     const uploadURL = `${baseURL}/api/files`;
     const emailURL = `${baseURL}/api/files/send`;
 
@@ -97,14 +97,10 @@
     dropZone.addEventListener("dragover", (e) => {
       e.preventDefault();
       dropZone.classList.add("dragged");
-
-      // console.log("dropping file");
     });
 
     dropZone.addEventListener("dragleave", (e) => {
       dropZone.classList.remove("dragged");
-
-      console.log("drag ended");
     });
 
     // file input change and uploader
@@ -121,6 +117,7 @@
     copyURLBtn.addEventListener("click", () => {
       fileURL.select();
       document.execCommand("copy");
+      toast.style.display = "block";
       showToast("Copied to clipboard");
     });
 
@@ -129,7 +126,7 @@
     });
 
     const uploadFile = () => {
-      console.log("file added uploading");
+      //console.log("file added uploading");
 
       files = fileInput.files;
       const formData = new FormData();
@@ -178,7 +175,7 @@
       progressContainer.style.display = "none"; // hide the box
 
       const { file: url } = JSON.parse(res);
-      console.log(url);
+      // console.log(url);
       sharingContainer.style.display = "block";
       fileURL.value = url;
     };
@@ -191,13 +188,13 @@
       emailForm[2].innerText = "Sending";
 
       const url = fileURL.value;
-
+      
       const formData = {
-        uuid: url.split("/").splice(-1, 1)[0],
+        url: url,
         emailTo: emailForm.elements["to-email"].value,
         emailFrom: emailForm.elements["from-email"].value,
       };
-      console.log(formData);
+      
       fetch(emailURL, {
         method: "POST",
         headers: {
@@ -208,6 +205,7 @@
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
+            toast.style.display = "block";
             showToast("Email Sent Successfully...!!!");
             sharingContainer.style.display = "none"; // hide the box
           }
@@ -216,12 +214,13 @@
 
     let toastTimer;
     // the toast function
-    const showToast = (msg) => {
-      clearTimeout(toastTimer);
+    const showToast =  (msg) => {
       toast.innerText = msg;
       toast.classList.add("show");
+      clearTimeout(toastTimer);
       toastTimer = setTimeout(() => {
         toast.classList.remove("show");
+        toast.style.display = "none";
       }, 2000);
     };
 
